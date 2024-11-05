@@ -10,10 +10,18 @@ td {
   padding: 0.5rem;
 }
 
-tbody td {
+td {
   text-align: center;
 }
 
 .table {
   width: 100%;
+}
+
+.tableLoading tbody tr td {
+  padding: 2rem;
+}
+
+.table thead td {
+  font-weight: bold;
 }

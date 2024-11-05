@@ -6,7 +6,12 @@ interface GetAllElixirsParams {
   params: Record<string, string>;
 }
 
-interface GetAllElixirsInventors {
+interface GetAllElixirsIngredient {
+  id: string;
+  name: string;
+}
+
+interface GetAllElixirsInventor {
   id: string;
   firstName: string;
   lastName: string;
@@ -16,7 +21,8 @@ export interface GetAllElixirsOutput {
   id: string;
   name: string;
   difficulty: string;
-  inventors: GetAllElixirsInventors[];
+  ingredients: GetAllElixirsIngredient[];
+  inventors: GetAllElixirsInventor[];
   manufacturer: string | null;
 }
 
