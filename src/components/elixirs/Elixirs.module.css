@@ -1,0 +1,59 @@
+.filtersWrapper {
+  display: flex;
+  justify-content: space-between;
+}
+
+.filtersBlock {
+  flex: 2;
+  border: 1px solid #eee;
+}
+
+.filtersInputBlock {
+  display: flex;
+  justify-content: space-between;
+}
+
+.filtersInputBlock span {
+  display: inline-block;
+  width: 30%;
+  border-right: 1px solid #eee;
+  padding: 0.5rem 0 0.5rem 1rem;
+}
+
+.filtersInputBlock:not(:last-child) span {
+  border-bottom: 1px solid #eee;
+}
+
+.filtersInputBlock input {
+  display: inline-block;
+  width: 70%;
+  border: 0;
+  text-indent: 30px;
+}
+
+.filtersInputBlock:not(:last-child) input {
+  border-bottom: 1px solid #eee;
+}
+
+.filtersInputBlock input:focus-visible {
+  outline: none;
+}
+
+.btnBlock {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-start;
+}
+
+.refreshBtn {
+  margin-right: 1rem;
+}
+
+button {
+  padding: 1rem 2rem;
+  border: 0;
+  border-radius: 6px;
+  font-size: 16px;
+  cursor: pointer;
+}

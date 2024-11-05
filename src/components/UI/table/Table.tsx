@@ -1,35 +1,46 @@
+import { Fragment } from 'react';
+
+import Error from '@/shared/error/Error.tsx';
+import Loading from '@/shared/loading/Loading.tsx';
+
 import classes from '@/components/UI/table/Table.module.css';
 
 import type { Component, PrimitiveType } from '@/types';
 import type { TableProps } from '@/components/UI/table/table.type.ts';
-import TableLoader from '@/shared/TableLoader/TableLoader.tsx';
-import { Fragment } from 'react';
 
 const Table: Component<TableProps> = props => {
-  const { columns, data, isLoading } = props;
+  const { columns, data, isLoading, error } = props;
 
   return (
-    <table className={[classes.table, ...(isLoading ? [classes.tableLoading] : [])].join(' ')}>
+    <table
+      className={[
+        classes.table,
+        ...(isLoading ? [classes.tableLoading] : []),
+        ...(error ? [classes.tableError] : []),
+      ].join(' ')}
+    >
       <thead>
         <tr>
           {columns.map(col => (
-            <td key={col.key}>{col.title}</td>
+            <td key={col.key} width={col.width}>
+              {col.title}
+            </td>
           ))}
         </tr>
       </thead>
       <tbody>
-        {isLoading ? (
+        {isLoading || error ? (
           <tr>
-            <td colSpan={columns.length}>
-              <TableLoader />
-            </td>
+            <td colSpan={columns.length}>{isLoading ? <Loading /> : <Error />}</td>
           </tr>
         ) : (
           <Fragment>
             {(Array.isArray(data) ? data : []).map(cur => (
               <tr key={cur.id}>
                 {columns.map(col => (
-                  <td key={col.key}>{col.render(cur[col.key] as PrimitiveType, cur as never)}</td>
+                  <td key={col.key} width={col.width}>
+                    {col.render(cur[col.key] as PrimitiveType, cur as never)}
+                  </td>
                 ))}
               </tr>
             ))}

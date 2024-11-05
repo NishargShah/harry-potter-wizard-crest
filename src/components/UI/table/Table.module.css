@@ -16,10 +16,12 @@ td {
 
 .table {
   width: 100%;
+  margin: 1rem 0;
 }
 
-.tableLoading tbody tr td {
-  padding: 2rem;
+.tableLoading tbody tr td,
+.tableError tbody tr td {
+  padding: 2rem 0;
 }
 
 .table thead td {
