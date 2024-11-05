@@ -1,0 +1,8 @@
+.container {
+  padding: 1rem;
+}
+
+.container h1 {
+  margin-bottom: 1rem;
+  text-align: center;
+}
