@@ -64,7 +64,7 @@ const initialState = Object.fromEntries(Object.keys(values).map(cur => [cur, '']
 };
 
 const Elixirs: Component = () => {
-  const [isFiltersVisible, setFiltersVisible] = useState(true);
+  const [isFiltersVisible, setFiltersVisible] = useState(false);
   const [activeKey, setActiveKey] = useState<(typeof activeKeys)[keyof typeof activeKeys] | null>(
     null
   );
