@@ -1,3 +1,5 @@
-const Loading = () => <p>Loading...</p>;
+import type { Component } from '@/types';
+
+const Loading: Component = () => <p>Loading...</p>;
 
 export default Loading;
