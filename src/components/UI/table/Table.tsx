@@ -10,6 +10,14 @@ import type { TableProps } from '@/components/UI/table/table.type.ts';
 
 const Table: Component<TableProps> = props => {
   const { columns, data, isLoading, error } = props;
+  const hasNoData = !(Array.isArray(data) ? data : []).length;
+
+  const component = (() => {
+    if (isLoading) return <Loading />;
+    if (error) return <Error />;
+    if (hasNoData) return <p>No Data Found</p>;
+    return null;
+  })();
 
   return (
     <table
@@ -17,6 +25,7 @@ const Table: Component<TableProps> = props => {
         classes.table,
         ...(isLoading ? [classes.tableLoading] : []),
         ...(error ? [classes.tableError] : []),
+        ...(hasNoData ? [classes.tableNoData] : []),
       ].join(' ')}
     >
       <thead>
@@ -29,9 +38,9 @@ const Table: Component<TableProps> = props => {
         </tr>
       </thead>
       <tbody>
-        {isLoading || error ? (
+        {isLoading || error || hasNoData ? (
           <tr>
-            <td colSpan={columns.length}>{isLoading ? <Loading /> : <Error />}</td>
+            <td colSpan={columns.length}>{component}</td>
           </tr>
         ) : (
           <Fragment>

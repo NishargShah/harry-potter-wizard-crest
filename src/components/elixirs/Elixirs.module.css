@@ -5,7 +5,18 @@
 
 .filtersBlock {
   flex: 2;
+}
+
+.filtersTable {
   border: 1px solid #eee;
+}
+
+.filtersBtnWrapper {
+  margin-top: 1rem;
+}
+
+.applyBtn {
+  margin-right: 1rem;
 }
 
 .filtersInputBlock {

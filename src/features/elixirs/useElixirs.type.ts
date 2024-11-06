@@ -1,7 +1,7 @@
 import type { QueryOutput } from '@/types/api.type.ts';
 import type { GetAllElixirsOutput } from '@/api/elixirs.api.ts';
 
-interface UseElixirsParams<D> {
+export interface UseElixirsParams<D = unknown> {
   initialData: unknown | D;
   params: Record<string, string>;
 }

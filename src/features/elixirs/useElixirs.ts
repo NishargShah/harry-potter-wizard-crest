@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 
 import { getAllElixirs } from '@/api/elixirs.api.ts';
 
-import type { UseElixirs } from '@/features/elixirs/useElixirs.type.ts';
+import { UseElixirs, UseElixirsParams } from '@/features/elixirs/useElixirs.type.ts';
 
 export const useElixirs: UseElixirs = ({ initialData, params }) => {
   const [isLoading, setLoading] = useState(true);
@@ -12,8 +12,8 @@ export const useElixirs: UseElixirs = ({ initialData, params }) => {
   );
   const [error, setError] = useState<Error | null>(null);
 
-  const getData = useCallback(async () => {
-    const data = await getAllElixirs({ params });
+  const getData = useCallback(async (searchParams = params) => {
+    const data = await getAllElixirs({ params: searchParams });
 
     if (data instanceof Error) {
       setError(data);
@@ -25,10 +25,10 @@ export const useElixirs: UseElixirs = ({ initialData, params }) => {
     // PARAMS NOT NEEDED
   }, []);
 
-  const refetch = async () => {
+  const refetch = async (params: UseElixirsParams['params']) => {
     setFetching(true);
 
-    const newData = await getData();
+    const newData = await getData(params);
     setFetching(false);
 
     return newData;

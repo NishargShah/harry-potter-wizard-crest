@@ -45,24 +45,29 @@ const columns = [
   },
 ] satisfies TableColumns<GetAllElixirsOutput>[];
 
-const initialState = {
-  name: '',
-  difficulty: '',
-  ingredient: '',
-  inventorFullName: '',
-  manufacturer: '',
+const values = {
+  Name: 'Name',
+  Difficulty: 'Difficulty',
+  Ingredient: 'Ingredient',
+  InventorFullName: 'Inventor Full Name',
+  Manufacturer: 'Manufacturer',
 } as const;
 
-const values = {
-  name: 'Name',
-  difficulty: 'Difficulty',
-  ingredient: 'Ingredient',
-  inventorFullName: 'Inventor Full Name',
-  manufacturer: 'Manufacturer',
+const activeKeys = {
+  REFRESH: 'refresh',
+  SUBMIT: 'submit',
+  RESET: 'reset',
 } as const;
+
+const initialState = Object.fromEntries(Object.keys(values).map(cur => [cur, ''])) as {
+  [P in keyof typeof values]: string;
+};
 
 const Elixirs: Component = () => {
   const [isFiltersVisible, setFiltersVisible] = useState(true);
+  const [activeKey, setActiveKey] = useState<(typeof activeKeys)[keyof typeof activeKeys] | null>(
+    null
+  );
   const [state, setState] = useState(initialState);
 
   const { data, isLoading, isFetching, refetch, error } = useElixirs({
@@ -80,31 +85,67 @@ const Elixirs: Component = () => {
     }));
   };
 
+  const handleRefresh = async () => {
+    setActiveKey(activeKeys.REFRESH);
+    await refetch(initialState);
+  };
+
+  const handleSubmit = async (key: typeof activeKeys.SUBMIT | typeof activeKeys.RESET) => {
+    setActiveKey(key);
+
+    if (key === 'reset') {
+      setState(initialState);
+      await refetch(initialState);
+      return;
+    }
+
+    await refetch(state);
+  };
+
   return (
     <div>
       <div className={classes.filtersWrapper}>
         {isFiltersVisible && (
           <div className={classes.filtersBlock}>
-            {(Object.keys(initialState) as (keyof typeof initialState)[]).map(key => (
-              <div key={key} className={classes.filtersInputBlock}>
-                <span>{values[key]}</span>
-                <input
-                  placeholder="Enter Value..."
-                  value={state[key]}
-                  onChange={e => handleChange(key, e.target.value)}
-                />
-              </div>
-            ))}
+            <div className={classes.filtersTable}>
+              {(Object.keys(initialState) as (keyof typeof initialState)[]).map(key => (
+                <div key={key} className={classes.filtersInputBlock}>
+                  <span>{values[key]}</span>
+                  <input
+                    placeholder="Enter Value..."
+                    value={state[key]}
+                    onChange={e => handleChange(key, e.target.value)}
+                  />
+                </div>
+              ))}
+            </div>
+            <div className={classes.filtersBtnWrapper}>
+              <button
+                className={classes.applyBtn}
+                onClick={() => handleSubmit(activeKeys.SUBMIT)}
+                disabled={activeKey === activeKeys.SUBMIT && isFetching}
+              >
+                Apply
+              </button>
+              <button
+                onClick={() => handleSubmit(activeKeys.RESET)}
+                disabled={activeKey === activeKeys.RESET && isFetching}
+              >
+                Clear Filters
+              </button>
+            </div>
           </div>
         )}
         <div className={classes.btnBlock}>
-          <button
-            className={classes.refreshBtn}
-            onClick={() => refetch(state)}
-            disabled={isFetching}
-          >
-            Refresh
-          </button>
+          {error && (
+            <button
+              className={classes.refreshBtn}
+              onClick={handleRefresh}
+              disabled={activeKey === activeKeys.REFRESH && isFetching}
+            >
+              Refresh
+            </button>
+          )}
           <button className={classes.filterBtn} onClick={() => setFiltersVisible(prev => !prev)}>
             Filters
           </button>
