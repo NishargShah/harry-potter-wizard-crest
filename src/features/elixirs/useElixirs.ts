@@ -14,15 +14,14 @@ export const useElixirs: UseElixirs = ({ initialData, params }) => {
 
   const getData = useCallback(async (searchParams = params) => {
     const data = await getAllElixirs({ params: searchParams });
+    const isError = data instanceof Error;
 
-    if (data instanceof Error) {
-      setError(data);
-      return null;
-    }
+    setError(data instanceof Error ? data : null);
+    setData(isError ? initialData : data);
 
-    setData(data);
-    return data;
+    return isError ? null : data;
     // PARAMS NOT NEEDED
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const refetch = async (params: UseElixirsParams['params']) => {

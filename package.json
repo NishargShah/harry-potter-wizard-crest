@@ -9,7 +9,7 @@
     "build": "tsc -b && vite build",
     "start:dev": "vite",
     "preview": "vite preview",
-    "lint": "eslint . --ignore-path .gitignore",
+    "lint": "eslint .",
     "lint:fix": "pnpm lint --fix",
     "prettier": "prettier \"**/*.{js,jsx,ts,tsx,css,scss,json}\"",
     "prettier:check": "pnpm prettier --check",

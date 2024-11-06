@@ -1,4 +1,5 @@
 import endpoints from '@/api/endpoints.ts';
+import constants from '@/constants';
 
 // GET ALL ELIXIRS
 
@@ -36,9 +37,26 @@ export const getAllElixirs: GetAllElixirs = async ({ params }) => {
       method: endpoints.getAllElixirs.method,
     });
 
-    return await res.json();
+    const data = await res.json();
+    if (!res.ok) throw data;
+
+    return data;
   } catch (err) {
     console.error(err);
-    return new Error(err as string);
+
+    const message = (() => {
+      const error = (() => {
+        if (typeof err === 'object' && err && 'errors' in err) {
+          const errors = Object.values(err.errors ?? {}).flat(1);
+          return errors[0] || undefined;
+        }
+
+        return undefined;
+      })();
+
+      return error || constants.TECHNICAL_ERROR;
+    })();
+
+    return new Error(message);
   }
 };

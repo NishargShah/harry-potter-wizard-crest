@@ -14,7 +14,7 @@ const Table: Component<TableProps> = props => {
 
   const component = (() => {
     if (isLoading) return <Loading />;
-    if (error) return <Error />;
+    if (error) return <Error message={error.message} />;
     if (hasNoData) return <p>No Data Found</p>;
     return null;
   })();

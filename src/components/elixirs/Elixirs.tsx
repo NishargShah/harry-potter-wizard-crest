@@ -87,7 +87,7 @@ const Elixirs: Component = () => {
 
   const handleRefresh = async () => {
     setActiveKey(activeKeys.REFRESH);
-    await refetch(initialState);
+    await refetch(state);
   };
 
   const handleSubmit = async (key: typeof activeKeys.SUBMIT | typeof activeKeys.RESET) => {
